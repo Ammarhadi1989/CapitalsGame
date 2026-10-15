@@ -1,4 +1,4 @@
-﻿using System.Security.AccessControl;
+﻿using Capitalgame;
 
 namespace Schackbräda
 {
@@ -6,34 +6,74 @@ namespace Schackbräda
     {
         static void Main(string[] args)
         {
-            // 1. Be användaren om storleken och spara i en variabel
+            Console.WriteLine("Welcome to the capitals game!");
 
-            Console.WriteLine("Skriv storlek på din schackbräda som du vill ha.");
-            int StorLek = int.Parse(Console.ReadLine());
+            Console.WriteLine("Type in your name: ");
+            string name = Console.ReadLine();
 
+            Console.WriteLine("\nChoose a continent");
+            Console.WriteLine("1. Europe");
+            Console.WriteLine("2. Asia");
+            Console.WriteLine("3. Africa");
+            Console.Write("Your choice (1-3): ");
+            string choice = Console.ReadLine();
 
-            // Tillåter mig använda symboler.// Detta googlade jag fram faktiskt :D 
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
-            
-            
-            // 2. Skapa en loop för raderna (uppifrån och ner)
-            for (int rad = 0; rad < StorLek; rad++)
+            Console.WriteLine($"Welcome {name} and good luck! ");
+
+            Console.WriteLine();
+
+            List<Country> listCountries;
+            switch (choice)
             {
-                for (int kolumn = 0; kolumn < StorLek; kolumn++)
-                {
-                    if ((rad + kolumn) % 2 == 0)
-                    {
-                        Console.Write("■ ");
-                    }
-                    else
-                    {
-                        Console.Write("□ ");
-                    }
-                }
-                Console.WriteLine();
+                case "1":
+                    listCountries = CountryRepository.GetEurope();
+                    break;
+                case "2":
+                    listCountries = CountryRepository.GetAsia();
+                    break;
+                case "3":
+                    listCountries = CountryRepository.GetAfrica();
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice, starting Europe game...");
+                    listCountries = CountryRepository.GetEurope();
+                    break;
             }
 
             
+
+           
+            int totalQuestions = listCountries.Count; // Sparar 40 i detta fall
+            int score = 0;
+
+            for (int i = 0; i < totalQuestions; i++)
+            {
+                Random randomCountry = new Random();
+
+                int randomIndex = randomCountry.Next(listCountries.Count);
+
+                Country selectedCountry = listCountries[randomIndex];
+                listCountries.RemoveAt(randomIndex);
+
+                Console.WriteLine($"Wich city is the capital in {selectedCountry.country}");
+
+                string answer = Console.ReadLine();
+
+                if (answer.ToUpper() == selectedCountry.capitalEn.ToUpper() || answer.ToUpper() == selectedCountry.capitalSwe.ToUpper())
+                {
+
+                    Console.WriteLine("Right answer!");
+                    score++;
+                }
+                else
+                {
+                    Console.WriteLine("Wrong answer!");
+                }
+
+
+            }
+            Console.WriteLine($"Good job {name} you got {score} points out of {totalQuestions}!");
+            Console.ReadLine();
         }
     }
 }
