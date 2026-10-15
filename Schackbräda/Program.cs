@@ -29,7 +29,7 @@ namespace CapitalsGame
                     listCountries = CountryRepository.GetEurope();
                     break;
                 case "2":
-                    listCountries = CountryRepository.GetAsia();
+                    listCountries = CountryRepository.GetAsia(); 
                     break;
                 case "3":
                     listCountries = CountryRepository.GetAfrica();
