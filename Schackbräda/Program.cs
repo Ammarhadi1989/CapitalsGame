@@ -1,6 +1,6 @@
 ﻿using Capitalgame;
 
-namespace Schackbräda
+namespace CapitalsGame
 {
     internal class Program
     {
